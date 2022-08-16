@@ -25,7 +25,7 @@ jobs:
             }
           event: fail
           channel: '#general'
-          token: $SLACK_ACCESS_TOKEN
+          token: ${SLACK_ACCESS_TOKEN}
           # username: 'CircleCI'
           # icon_url: 'https://avatars0.githubusercontent.com/u/8181592?s=200&v=4'
           # icon_emoji: ':ghost:'
