@@ -1,6 +1,37 @@
 version: 2.1
-         
+orbs:
+  slack: circleci/slack@4.1
+
 jobs:
+  notify:
+    docker:
+      - image: 'cimg/base:stable'
+    steps:
+      - slack/notify:
+          custom: |
+            {
+              "blocks": [
+                {
+                  "type": "section",
+                  "fields": [
+                    {
+                      "type": "plain_text",
+                      "text": "*This is a text notification*",
+                      "emoji": true
+                    }
+                  ]
+                }
+              ]
+            }
+          event: failure
+          channel: '#general'
+          token: $SLACK_ACCESS_TOKEN
+          # username: 'CircleCI'
+          # icon_url: 'https://avatars0.githubusercontent.com/u/8181592?s=200&v=4'
+          # icon_emoji: ':ghost:'
+          # link_names: true
+          # parse: none
+
   build-frontend:
     docker:
       - image: circleci/node:13.8.0
@@ -106,3 +137,6 @@ workflows:
           requires: [build-frontend]
       - scan-backend:
           requires: [build-backend]
+      - notify:
+          requires: [test-frontend, test-backend, scan-frontend, scan-backend]
+          when: on_failure
