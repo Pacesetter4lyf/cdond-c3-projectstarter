@@ -23,7 +23,7 @@ jobs:
                 }
               ]
             }
-          event: failure
+          event: fail
           channel: '#general'
           token: $SLACK_ACCESS_TOKEN
           # username: 'CircleCI'
