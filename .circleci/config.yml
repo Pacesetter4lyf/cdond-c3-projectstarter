@@ -164,20 +164,12 @@ jobs:
               --parameter-overrides ID="${CIRCLE_WORKFLOW_ID:0:7}"    
       - run:
           name: Add back-end ip to ansible inventory
+          working_directory: ~/project/.circleci/ansible/
           command: |
-            - pwd
-            - cd .circleci/ansible
-            - pwd
             aws ec2 describe-instances \
               --query "Reservations[*].Instances[*].PublicIpAddress" \    
               --filters "Name=tag:project,Values=udapeople" \      
               --output text  >> inventory.txt
-            # aws ec2 describe-instances \
-            # --query 'Reservations[*].Instances[*].PublicIpAddress'  \
-            # --filters "Name=tag-value,Values=emma"  \
-            # --output text >> project/.circleci/ansible/inventory
-            # aws ec2 describe-instances --query 'Reservations[*].Instances[*].PublicIpAddress'  --filters "Name=tag:project,Values=udapeople"  --output text >> .circleci/ansible/inventory.txt
-
       - persist_to_workspace:
           root: ~/
           paths:
