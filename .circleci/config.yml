@@ -254,8 +254,8 @@ jobs:
           name: Install dependencies
           command: |
             # your code here
-            pip install ansible
-            pip --no-cache-dir install --upgrade awscli
+            apk add --update ansible 
+            apt-get update && apt-get install -y awscli.
       - run:
           name: Get backend url
           command: |
