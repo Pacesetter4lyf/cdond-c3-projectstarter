@@ -254,8 +254,9 @@ jobs:
           name: Install dependencies
           command: |
             # your code here
-            apt add --update ansible 
-            apt-get update && apt-get install -y awscli.
+            # apt add --update ansible 
+            apt-get update && apt-get install -y awscli
+            apt-get update && apt-get install -y ansible
       - run:
           name: Get backend url
           command: |
