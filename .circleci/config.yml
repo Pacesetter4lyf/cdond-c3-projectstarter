@@ -254,7 +254,7 @@ jobs:
           name: Install dependencies
           command: |
             # your code here
-            apk add --update ansible 
+            apt add --update ansible 
             apt-get update && apt-get install -y awscli.
       - run:
           name: Get backend url
