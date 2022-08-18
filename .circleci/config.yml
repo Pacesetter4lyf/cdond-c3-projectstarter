@@ -239,24 +239,40 @@ jobs:
           id: ${CIRCLE_WORKFLOW_ID:0:7}    
   
   deploy-frontend:
+    # docker:
+    #   - image: amazon/aws-cli
+    # steps:
+    #   # Checkout code from git
+    #   - checkout 
+    #   - run:
+    #       name: Install tar utility
+    #       command: |
+    #         yum install -y tar gzip
+    #   - attach_workspace:
+    #       at: ~/
+    #   - run:
+    #       name: Install dependencies
+    #       command: |
+    #         # your code here
+    #         apt add --update ansible 
+    #         apt add --update awscli
+    #         # apt-get update && apt-get install -y ansible
     docker:
-      - image: amazon/aws-cli
+      - image: cimg/python:3.10.5-node
     steps:
-      # Checkout code from git
-      - checkout 
-      - run:
-          name: Install tar utility
-          command: |
-            yum install -y tar gzip
+      - checkout
+      - add_ssh_keys:
+          fingerprints: ["cc:45:dc:87:da:2d:be:d3:e5:75:3c:22:2e:14:2b:b1"]
       - attach_workspace:
           at: ~/
       - run:
-          name: Install dependencies
+          name: Install Ansible
           command: |
-            # your code here
-            # apt add --update ansible 
-            apt-get update && apt-get install -y awscli
-            apt-get update && apt-get install -y ansible
+            pip install ansible
+      - run:
+          name: Install AWS CLI
+          command: |
+            pip --no-cache-dir install --upgrade awscli
       - run:
           name: Get backend url
           command: |
